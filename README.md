@@ -174,5 +174,26 @@ http :8080/my-ious
 #### POST /ious
 
 ```
-echo '{"iouValue":5, "partyName": "O=PartyB, L=New York, C=US"}' | http post :8080/ious
+$ echo '{"iouValue":5, "partyName": "O=PartyB, L=New York, C=US"}' | http post :8080/ious
+
+Transaction committed to ledger.
+
+$ http :8080/ious
+
+[
+    {
+        "amount": 5,
+        "borrower": "O=PartyB, L=New York, C=US",
+        "lender": "O=PartyA, L=London, C=GB"
+    }
+]
 ```
+
+### Running the nodes from IntelliJ (alternative to deployNodes)
+
+First get the quasar library. This created a folder `lib` with the `quasar.jar` artifact inside it.
+```bash
+$ ./gradlew install installQuasar 
+```
+
+Run the `NodeDriver.kt` from the `workflows` module. This will bootstrap the 3 nodes within a single JVM.
