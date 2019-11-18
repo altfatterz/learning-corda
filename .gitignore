@@ -1,0 +1,22 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+workflows/out/
+contracts/out/
+clients/out/
+
+# Logs
+logs
+
+# if you use the installQuasar task
+lib
