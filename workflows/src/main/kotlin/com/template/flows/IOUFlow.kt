@@ -1,14 +1,13 @@
 package com.template.flows
 
 import co.paralleluniverse.fibers.Suspendable
-import com.template.contracts.TemplateContract
+import com.template.contracts.IOUContract
 import com.template.states.IOUState
 import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import net.corda.core.contracts.Command
 import net.corda.core.flows.*
 import net.corda.core.utilities.ProgressTracker
 import net.corda.core.identity.Party
-import net.corda.core.transactions.SignedTransaction
 import net.corda.core.transactions.TransactionBuilder
 
 
@@ -42,12 +41,12 @@ class IOUFlow(val iouValue: Int, val otherParty: Party) : FlowLogic<Unit>() {
 
         // We create the transaction components.
         val outputState = IOUState(iouValue, ourIdentity, otherParty)
-        val command = Command(TemplateContract.Commands.Action(), ourIdentity.owningKey)
+        val command = Command(IOUContract.Commands.Action(), ourIdentity.owningKey)
         // commands indicate the intent of a transaction:  issuance, transfer, redemption, revocation.
 
         // We create a transaction builder and add the components.
         val txBuilder = TransactionBuilder(notary = notary)
-                .addOutputState(outputState, TemplateContract.ID)
+                .addOutputState(outputState, IOUContract.ID)
                 .addCommand(command)
 
         // We sign the transaction.
