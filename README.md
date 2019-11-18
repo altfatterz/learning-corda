@@ -24,7 +24,7 @@ This generates in the `learning-corda/build/nodes` 3 directories for `PartyA`, `
 $ build/nodes/runnodes
 ```
  
-You might the the following error message if you installed `java` on Mac via `sdkman` 
+You might get the following error message if you installed `java` on Mac via `sdkman` 
 
 ```bash
 Unable to find any JVMs matching version "1.8".
