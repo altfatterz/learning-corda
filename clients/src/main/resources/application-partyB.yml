@@ -1,0 +1,7 @@
+server.port: 8081
+
+config.rpc:
+  host: localhost
+  port: 10009
+  username: user1
+  password: test
