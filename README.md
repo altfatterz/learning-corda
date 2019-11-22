@@ -69,7 +69,7 @@ Node for "PartyB" started up and registered in 32.09 sec
 
 When started via the command line, each node will display an interactive shell:
 
-### Client
+### Command Line Client
 
 `clients/src/main/kotlin/com/template/Client.kt` defines a simple command-line client that connects to a node via RPC 
 and prints a list of the other nodes on the network.
@@ -98,7 +98,7 @@ the other nodes on the network:
   serial: 1574110199669
 ```
 
-### Endpoints
+### Web Client with the following endpoints:
 
 #### /me
 
@@ -106,6 +106,12 @@ the other nodes on the network:
 $ http :8080/me
 
 O=PartyA, L=London, C=GB
+```
+
+```bash
+$ http :8081/me
+
+O=O=PartyB, L=New York, C=US
 ```
 
 #### /peers
@@ -181,12 +187,16 @@ E 11:53:00 47 RestController.createIOU - Cannot find contract attachments for co
 
 When running via IntelliJ the nodes it works.
 
+
+Lend 5 amount to partyB
+
 ```
 $ echo '{"iouValue":5, "partyName": "O=PartyB, L=New York, C=US"}' | http post :8080/ious
 
 Transaction committed to ledger.
 
-$ http :8080/ious
+```bash
+$ http :8080/my-ious
 
 [
     {
@@ -195,6 +205,13 @@ $ http :8080/ious
         "lender": "O=PartyA, L=London, C=GB"
     }
 ]
+```
+
+however the partyB will not have a record:
+
+```bash
+$ http :8081/my-ious
+[]
 ```
 
 ### Running the nodes from IntelliJ (alternative to deployNodes)
