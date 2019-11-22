@@ -5,9 +5,11 @@ import com.template.contracts.IOUContract
 import com.template.states.IOUState
 import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import net.corda.core.contracts.Command
+import net.corda.core.contracts.requireThat
 import net.corda.core.flows.*
 import net.corda.core.utilities.ProgressTracker
 import net.corda.core.identity.Party
+import net.corda.core.transactions.SignedTransaction
 import net.corda.core.transactions.TransactionBuilder
 
 
@@ -41,8 +43,9 @@ class IOUFlow(val iouValue: Int, val otherParty: Party) : FlowLogic<Unit>() {
 
         // We create the transaction components.
         val outputState = IOUState(iouValue, ourIdentity, otherParty)
-        val command = Command(IOUContract.Commands.Action(), ourIdentity.owningKey)
+        val command = Command(IOUContract.Create(), listOf(ourIdentity.owningKey, otherParty.owningKey))
         // commands indicate the intent of a transaction:  issuance, transfer, redemption, revocation.
+        // redemption - the action of regaining or gaining possession of something in exchange for payment
 
         // We create a transaction builder and add the components.
         val txBuilder = TransactionBuilder(notary = notary)
@@ -54,10 +57,15 @@ class IOUFlow(val iouValue: Int, val otherParty: Party) : FlowLogic<Unit>() {
         val signedTx = serviceHub.signInitialTransaction(txBuilder)
 
         // Creating a session with the other party.
+        // `initiateFlow` creates a communication session with [party]. Subsequently you may send/receive using this session object. Note
+        // that this function does not communicate in itself, the counter-flow will be kicked off by the first send/receive.
         val otherPartySession = initiateFlow(otherParty)
 
-        // We finalise the transaction and then send it to the counterparty.
-        subFlow(FinalityFlow(signedTx, otherPartySession))
+        // Obtaining the counterparty's signature.
+        val fullySignedTx = subFlow(CollectSignaturesFlow(signedTx, listOf(otherPartySession), CollectSignaturesFlow.tracker()))
+
+        // Finalising the transaction.
+        subFlow(FinalityFlow(fullySignedTx, otherPartySession))
     }
 }
 
@@ -70,7 +78,30 @@ class IOUFlowResponder(private val otherPartySession: FlowSession) : FlowLogic<U
      */
     @Suspendable
     override fun call() {
-        log.println("Responder Flow was called...")
-        subFlow(ReceiveFinalityFlow(otherPartySession))
+        //  To allow the borrower to respond, we need to update its responder flow to first receive the partially signed transaction for signing
+
+        // We could write our own flow to handle this process. However, there is also a pre-defined flow called `SignTransactionFlow` that can handle the process automatically.
+        // The SignTransactionFlow is abstract class and here we subclass it and override the checkTransaction method
+
+        // interesting how a singleton is created with Kotlin with the `object` keyword
+        // https://kotlinlang.org/docs/tutorials/kotlin-for-py/objects-and-companion-objects.html
+
+        val signTransactionFlow = object : SignTransactionFlow(otherPartySession) {
+
+            override fun checkTransaction(stx: SignedTransaction) = requireThat {
+
+                // If either of these conditions are not met, we will not sign the transaction - even if the transaction and its signatures are contractually valid.
+
+                val output = stx.tx.outputs.single().data
+                "This must be an IOU transaction." using (output is IOUState)
+                val iou = output as IOUState
+                "The IOU's value can't be too high." using (iou.value < 100)
+            }
+
+        }
+
+        val expectedTxId = subFlow(signTransactionFlow).id
+
+        subFlow(ReceiveFinalityFlow(otherPartySession, expectedTxId))
     }
 }
