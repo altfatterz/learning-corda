@@ -179,16 +179,7 @@ http :8080/my-ious
 
 #### POST /ious
 
-When running via `runnodes` this gives currently the following error (not sure currently why)
-
-```bash
-E 11:53:00 47 RestController.createIOU - Cannot find contract attachments for com.template.contracts.IOUContractnull. See https://docs.corda.net/api-contract-constraints.html#debugging
-```
-
-When running via IntelliJ the nodes it works.
-
-
-Lend 5 amount to partyB
+PartyA lends 5 amount to partyB
 
 ```
 $ echo '{"iouValue":5, "partyName": "O=PartyB, L=New York, C=US"}' | http post :8080/ious
@@ -222,3 +213,19 @@ $ ./gradlew install installQuasar
 ```
 
 Run the `NodeDriver.kt` from the `workflows` module. This will bootstrap the 3 nodes within a single JVM.
+
+
+### Flow commands
+
+```bash
+$ flow list
+$ flow start
+```
+
+Starting the `ExampleFlow`:
+
+```bash
+$ flow start flow ExampleFlow
+```
+
+Check that the `ExampleFlow` is only available on the `PartyA` node
