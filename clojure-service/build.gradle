@@ -23,7 +23,7 @@ clojure {
 
 //jar {
 //    manifest {
-//        attributes 'Main-Class': 'pedestal_example.server'
+//        attributes 'Main-Class': 'clojure_service.server'
 //    }
 //}
 
