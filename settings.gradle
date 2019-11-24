@@ -3,3 +3,4 @@ include 'contracts'
 include 'clients'
 
 include 'corda-service'
+include 'clojure-service'
