@@ -55,6 +55,13 @@ class ExampleService(private val serviceHub: AppServiceHub) : SingletonSerialize
 //        val invoke = resolve("clojure_service.server")?.invoke()
 //        log.info("invoke: $invoke")
 
+        // Attempting to call unbound fn: #'server/start
+//        val invoke = resolve("server/start")?.invoke("runnable-service")
+//        log.info("invoke: $invoke")
+
+//         Attempting to call unbound fn: #'server/start
+//        val invoke = resolve("server/start runnable service")?.invoke()
+//        log.info("invoke: $invoke")
     }
 
     fun greet(): String {
