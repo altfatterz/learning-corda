@@ -50,7 +50,8 @@ dependencies {
 
     // CorDapp dependencies.
     cordapp project(":contracts")
-    cordapp project(":corda-service")
+    // has problem with log4j when starting the Spring Boot client
+//    cordapp project(":corda-service")
 }
 
 task integrationTest(type: Test, dependsOn: []) {
