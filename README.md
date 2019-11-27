@@ -71,7 +71,7 @@ When started via the command line, each node will display an interactive shell:
 
 ### Command Line Client
 
-`clients/src/main/kotlin/com/template/Client.kt` defines a simple command-line client that connects to a node via RPC 
+`clients/src/main/kotlin/com/example/Client.kt` defines a simple command-line client that connects to a node via RPC 
 and prints a list of the other nodes on the network.
 
 You can use this shell to interact with your node. For example, enter `run networkMapSnapshot` to see a list of 

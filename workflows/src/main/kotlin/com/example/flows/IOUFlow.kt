@@ -1,8 +1,8 @@
-package com.template.flows
+package com.example.flows
 
 import co.paralleluniverse.fibers.Suspendable
-import com.template.contracts.IOUContract
-import com.template.states.IOUState
+import com.example.contracts.IOUContract
+import com.example.states.IOUState
 import jdk.nashorn.internal.runtime.regexp.joni.Config.log
 import net.corda.core.contracts.Command
 import net.corda.core.contracts.requireThat

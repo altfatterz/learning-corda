@@ -1,6 +1,6 @@
-package com.template
+package com.example
 
-import com.template.flows.IOUFlowResponder
+import com.example.flows.IOUFlowResponder
 import net.corda.testing.node.MockNetwork
 import net.corda.testing.node.MockNetworkParameters
 import net.corda.testing.node.TestCordapp
@@ -9,10 +9,12 @@ import org.junit.Before
 import org.junit.Test
 
 class FlowTests {
+
     private val network = MockNetwork(MockNetworkParameters(cordappsForAllNodes = listOf(
-        TestCordapp.findCordapp("com.template.contracts"),
-        TestCordapp.findCordapp("com.template.flows")
+        TestCordapp.findCordapp("com.example.contracts"),
+        TestCordapp.findCordapp("com.example.flows")
     )))
+
     private val a = network.createNode()
     private val b = network.createNode()
 
@@ -30,6 +32,6 @@ class FlowTests {
 
     @Test
     fun `dummy test`() {
-
+        network.notaryNodes
     }
 }

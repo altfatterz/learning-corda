@@ -1,7 +1,7 @@
-package com.template.webserver
+package com.example.webserver
 
-import com.template.flows.IOUFlow
-import com.template.states.IOUState
+import com.example.flows.IOUFlow
+import com.example.states.IOUState
 import net.corda.core.identity.CordaX500Name
 import net.corda.core.messaging.startTrackedFlow
 import net.corda.core.messaging.vaultQueryBy

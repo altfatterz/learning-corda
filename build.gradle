@@ -87,7 +87,7 @@ dependencies {
 
 cordapp {
     info {
-        name "CorDapp Template"
+        name "CorDapp Example"
         vendor "Corda Open Source"
         targetPlatformVersion corda_platform_version
         minimumPlatformVersion corda_platform_version
@@ -118,9 +118,6 @@ task deployNodes(type: net.corda.plugins.Cordform, dependsOn: ['jar']) {
             address("localhost:10005")
             adminAddress("localhost:10006")
         }
-
-        cordapp project(':corda-service')
-
         rpcUsers = [[ user: "user1", "password": "test", "permissions": ["ALL"]]]
     }
     node {
