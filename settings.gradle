@@ -2,5 +2,9 @@ include 'workflows'
 include 'contracts'
 include 'clients'
 
-include 'corda-service'
-include 'clojure-service'
+//include ':corda-and-clojure:corda-service'
+//include ':corda-and-clojure:clojure-service'
+
+include ':contracts:iou-contract'
+include ':workflows:iou-workflow'
+

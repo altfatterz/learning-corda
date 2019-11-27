@@ -15,7 +15,7 @@ class IOUContract : Contract {
 
     companion object {
         // Used to identify our contract when building a transaction.
-        const val ID = "com.example.contracts.IOUContract"
+        val ID = IOUContract::class.qualifiedName!!
     }
 
     // Commands serve two functions:
