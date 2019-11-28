@@ -140,9 +140,16 @@ task installQuasar(type: Copy) {
 }
 
 // this works also with override
-task install1(type: Copy) {
-    from("lib/corda-4.1-sdx.jar")
-    rename 'corda-4.1-sdx.jar', 'corda.jar'
-    into("build/nodes/PartyA")
+task installSDXCorda(type: Copy) {
+    copy {
+        from("lib/corda-4.1-sdx.jar")
+        rename "corda-4.1-sdx.jar", "corda.jar"
+        into("build/nodes/PartyA")
+    }
+    copy {
+        from("lib/corda-4.1-sdx.jar")
+        rename "corda-4.1-sdx.jar", "corda.jar"
+        into("build/nodes/PartyB")
+    }
 }
 
