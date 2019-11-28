@@ -18,5 +18,3 @@ clients/out/
 # Logs
 logs
 
-# if you use the installQuasar task
-lib

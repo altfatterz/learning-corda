@@ -138,3 +138,11 @@ task installQuasar(type: Copy) {
         rename 'quasar-core(.*).jar', 'quasar.jar'
     }
 }
+
+// this works also with override
+task install1(type: Copy) {
+    from("lib/corda-4.1-sdx.jar")
+    rename 'corda-4.1-sdx.jar', 'corda.jar'
+    into("build/nodes/PartyA")
+}
+
