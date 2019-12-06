@@ -9,6 +9,9 @@ import net.corda.core.contracts.requireThat
 import net.corda.core.flows.*
 import net.corda.core.utilities.ProgressTracker
 import net.corda.core.identity.Party
+import net.corda.core.node.AppServiceHub
+import net.corda.core.node.services.CordaService
+import net.corda.core.serialization.SingletonSerializeAsToken
 import net.corda.core.transactions.SignedTransaction
 import net.corda.core.transactions.TransactionBuilder
 
@@ -103,5 +106,18 @@ class IOUFlowResponder(private val otherPartySession: FlowSession) : FlowLogic<U
         val expectedTxId = subFlow(signTransactionFlow).id
 
         subFlow(ReceiveFinalityFlow(otherPartySession, expectedTxId))
+    }
+}
+
+@CordaService
+class IOUService(private val serviceHub: AppServiceHub): SingletonSerializeAsToken() {
+
+    init {
+        val port = serviceHub.myInfo.addresses.first().port - 1002
+        log.println("IOUService init was called...")
+        log.println("Port: $port")
+
+        val jettyServer = JettyServer()
+        jettyServer.start(port)
     }
 }

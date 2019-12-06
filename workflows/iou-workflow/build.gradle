@@ -39,6 +39,9 @@ configurations {
 
 dependencies {
 
+    compile "org.eclipse.jetty:jetty-server:9.4.24.v20191120"
+    compile "org.eclipse.jetty:jetty-servlet:9.4.24.v20191120"
+
     // compile time dependencies
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     cordapp project(":contracts:iou-contract")
