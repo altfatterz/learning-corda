@@ -12,6 +12,7 @@ import java.util.concurrent.Future
 import kotlin.test.assertEquals
 
 class DriverBasedTest {
+
     private val bankA = TestIdentity(CordaX500Name("BankA", "", "GB"))
     private val bankB = TestIdentity(CordaX500Name("BankB", "", "US"))
 

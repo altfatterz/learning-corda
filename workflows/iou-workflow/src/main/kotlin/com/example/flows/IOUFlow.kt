@@ -113,6 +113,6 @@ class IOUFlowResponder(private val otherPartySession: FlowSession) : FlowLogic<U
 class IOUService(private val serviceHub: AppServiceHub): SingletonSerializeAsToken() {
 
     init {
-        log.println("IOUService init was instantiated...")
+        log.println("IOUService was instantiated...")
     }
 }

@@ -146,20 +146,4 @@ task installQuasar(type: Copy) {
     }
 }
 
-def sdxCorda = copySpec {
-    from 'lib/corda-4.1-sdx.jar'
-    rename 'corda-4.1-sdx.jar', 'corda.jar'
-}
-
-task installSDXCorda(type: Copy) {
-    [
-            'build/nodes/PartyA',
-            'build/nodes/PartyB'
-    ].each { dest ->
-        copy {
-            with sdxCorda
-            into dest
-        }
-    }
-}
 

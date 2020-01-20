@@ -252,8 +252,20 @@ stateTypes: "UNCONSUMED"
 otherResults: []
 ```
 
+If you run this on the `PartyC` node then we can see, there are no states
 
+```
+$ run vaultQuery contractStateType: com.example.states.IOUState
 
+states: []
+statesMetadata: []
+totalStatesAvailable: -1
+stateTypes: "UNCONSUMED"
+otherResults: []
+
+```
+
+### GET /my-ious
 
 ```bash
 $ http :8080/my-ious
@@ -267,22 +279,25 @@ $ http :8080/my-ious
 ]
 ```
 
-however the partyB will not have a record:
-
 ```bash
 $ http :8081/my-ious
+[]
+```
+
+```bash
+$ http :8082/my-ious
 []
 ```
 
 ### Running the nodes from IntelliJ (alternative to deployNodes)
 
 First get the quasar library. This created a folder `lib` with the `quasar.jar` artifact inside it.
+
 ```bash
 $ ./gradlew install installQuasar 
 ```
 
-Run the `NodeDriver.kt` from the `workflows` module. This will bootstrap the 3 nodes within a single JVM.
-
+Run the `NodeDriver.kt` from the `workflows` module. This will bootstrap the 4 nodes (`Notary`, `PartyA`, `PartyB`, `PartyC`) within a single JVM.
 
 ### Flow commands
 
