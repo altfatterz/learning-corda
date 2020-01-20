@@ -28,7 +28,7 @@ import net.corda.core.transactions.TransactionBuilder
  */
 @InitiatingFlow
 @StartableByRPC
-class IOUFlow(val iouValue: Int, val otherParty: Party) : FlowLogic<Unit>() {
+class IOUFlow(private val iouValue: Int, private val otherParty: Party) : FlowLogic<Unit>() {
 
     /** The progress tracker provides checkpoints indicating the progress of the flow to observers. */
     override val progressTracker = ProgressTracker()
@@ -113,11 +113,6 @@ class IOUFlowResponder(private val otherPartySession: FlowSession) : FlowLogic<U
 class IOUService(private val serviceHub: AppServiceHub): SingletonSerializeAsToken() {
 
     init {
-        val port = serviceHub.myInfo.addresses.first().port - 1002
-        log.println("IOUService init was called...")
-        log.println("Port: $port")
-
-        val jettyServer = JettyServer()
-        jettyServer.start(port)
+        log.println("IOUService init was instantiated...")
     }
 }

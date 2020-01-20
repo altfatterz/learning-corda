@@ -17,8 +17,10 @@ private class Client {
 
     fun main() {
         // Create an RPC connection to the node.
-        val nodeAddress = parse("localhost:10006") // connection to O=PartyA, L=London, C=GB
-        // val nodeAddress = parse("localhost:10009") // connection to O=PartyB, L=New York, C=GB
+        val nodeAddress = parse("localhost:10012") // connection to O=PartyA, L=London, C=GB
+        // val nodeAddress = parse("localhost:10022") // connection to O=PartyB, L=New York, C=GB
+        // val nodeAddress = parse("localhost:10032") // connection to O=PartyC, L=Zurich, C=CH
+
         val rpcUsername = "user1"
         val rpcPassword = "test"
         val client = CordaRPCClient(nodeAddress)

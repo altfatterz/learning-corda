@@ -1,7 +1,7 @@
-server.port: 8080
+server.port: 8082
 
 config.rpc:
   host: localhost
-  port: 10012
+  port: 10032
   username: user1
   password: test
