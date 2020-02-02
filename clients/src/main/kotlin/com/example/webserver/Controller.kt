@@ -40,9 +40,13 @@ class Controller(rpc: NodeRPCConnection) {
 
     @GetMapping("/ious")
     fun getIOUs(): List<IOU> {
-        return proxy.vaultQueryBy<IOUState>().states.map {
-            IOU(it.state.data.value, it.state.data.lender.toString(), it.state.data.borrower.toString())
-        }
+        return proxy.vaultQueryBy<IOUState>().states
+                .map {
+                    IOU(it.state.data.value,
+                            it.state.data.lender.toString(),
+                            it.state.data.borrower.toString(),
+                            it.state.data.date)
+                }
     }
 
     // connect to PartyA and PartyB and check the difference
@@ -50,13 +54,17 @@ class Controller(rpc: NodeRPCConnection) {
     fun getMyIOUs(): List<IOU> {
         return proxy.vaultQueryBy<IOUState>().states
                 .filter { it.state.data.lender.equals(proxy.nodeInfo().legalIdentities.first()) }
-                .map { IOU(it.state.data.value, it.state.data.lender.toString(), it.state.data.borrower.toString()) }
+                .map { IOU(it.state.data.value,
+                        it.state.data.lender.toString(),
+                        it.state.data.borrower.toString(),
+                        it.state.data.date) }
     }
 
     @PostMapping("/ious")
     fun createIOU(@RequestBody request: CreateIOURequest): ResponseEntity<String> {
         val partyX500Name = CordaX500Name.parse(request.partyName)
-        val otherParty = proxy.wellKnownPartyFromX500Name(partyX500Name) ?: return ResponseEntity.badRequest().body("Party named ${request.partyName} cannot be found.\n")
+        val otherParty = proxy.wellKnownPartyFromX500Name(partyX500Name)
+                ?: return ResponseEntity.badRequest().body("Party named ${request.partyName} cannot be found.\n")
 
         return try {
             proxy.startTrackedFlow(::IOUFlow, request.iouValue, otherParty, request.date).returnValue.getOrThrow()
@@ -70,6 +78,6 @@ class Controller(rpc: NodeRPCConnection) {
 
 }
 
-data class IOU(val amount: Int, val lender: String, val borrower: String)
+data class IOU(val amount: Int, val lender: String, val borrower: String, val date: LocalDate)
 
-data class CreateIOURequest (val iouValue: Int, val partyName: String, val date: LocalDate)
+data class CreateIOURequest(val iouValue: Int, val partyName: String, val date: LocalDate)
