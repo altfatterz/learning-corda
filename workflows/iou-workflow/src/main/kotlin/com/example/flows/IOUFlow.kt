@@ -14,6 +14,7 @@ import net.corda.core.node.services.CordaService
 import net.corda.core.serialization.SingletonSerializeAsToken
 import net.corda.core.transactions.SignedTransaction
 import net.corda.core.transactions.TransactionBuilder
+import java.time.LocalDate
 
 
 // *********
@@ -28,7 +29,7 @@ import net.corda.core.transactions.TransactionBuilder
  */
 @InitiatingFlow
 @StartableByRPC
-class IOUFlow(private val iouValue: Int, private val otherParty: Party) : FlowLogic<Unit>() {
+class IOUFlow(private val iouValue: Int, private val otherParty: Party, private val date: LocalDate) : FlowLogic<Unit>() {
 
     /** The progress tracker provides checkpoints indicating the progress of the flow to observers. */
     override val progressTracker = ProgressTracker()
@@ -40,12 +41,12 @@ class IOUFlow(private val iouValue: Int, private val otherParty: Party) : FlowLo
      **/
     @Suspendable
     override fun call() {
-        log.println("Initiator flow was called...")
+        log.println("Initiator flow was called iouValue: $iouValue, otherParty: ${otherParty.name}, date: $date")
         // We retrieve the notary identity from the network map.
         val notary = serviceHub.networkMapCache.notaryIdentities[0]
 
         // We create the transaction components.
-        val outputState = IOUState(iouValue, ourIdentity, otherParty)
+        val outputState = IOUState(iouValue, ourIdentity, otherParty, date)
         val command = Command(IOUContract.Create(), listOf(ourIdentity.owningKey, otherParty.owningKey))
         // commands indicate the intent of a transaction:  issuance, transfer, redemption, revocation.
         // redemption - the action of regaining or gaining possession of something in exchange for payment

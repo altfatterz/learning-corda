@@ -298,7 +298,6 @@ $ ./gradlew install installQuasar
 ```
 
 Run the `NodeDriver.kt` from the `workflows` module. This will bootstrap the 4 nodes (`Notary`, `PartyA`, `PartyB`, `PartyC`) within a single JVM.
-
 ### Flow commands
 
 ```bash
@@ -306,10 +305,23 @@ $ flow list
 $ flow start
 ```
 
-Starting the `ExampleFlow`:
+Starting the `IOUFlow`:
 
 ```bash
-$ flow start flow ExampleFlow
+$ flow start com.example.flows.IOUFlow iouValue: 50, otherParty: "O=PartyB,L=New York,C=US"
+
+ ✅   Starting
+          Requesting signature by notary service
+              Requesting signature by Notary service
+              Validating response from Notary service
+     ✅   Broadcasting transaction to participants
+➡️   Done
+Flow completed with result: kotlin.Unit
 ```
 
-Check that the `ExampleFlow` is only available on the `PartyA` node
+
+```bash
+$ flow start com.example.flows.IOUFlow iouValue: 200, otherParty: "O=PartyB,L=New York,C=US"
+
+java.lang.IllegalArgumentException: Failed requirement: The IOU's value can't be too high.
+```
